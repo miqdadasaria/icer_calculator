@@ -30,7 +30,7 @@ shinyServer(function(input, output) {
   
   output$icer_plot = renderPlot({
     withProgress(message = 'Rendering Cost-effectiveness plane',{
-      plot_strategies(icer_table())
+      plot_strategies(icer_table(),input$show_labels)
     })
   })
   

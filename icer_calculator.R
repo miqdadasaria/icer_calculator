@@ -69,18 +69,20 @@ calculate_icers = function(data){
 }
 
 
-plot_strategies = function(icers){
+plot_strategies = function(icers, labels){
   if(is.null(icers)){
     return(NULL)
   } else {
     icers$Status = factor(icers$Status,levels=c("D","ED","ND"),labels=c("Dominated","Extendedly Dominated","Non-Dominated"))
     icer_plot = ggplot(icers,aes(x=Effect,y=Cost,group=Status,colour=Status,linetype=Status,label=Strategy)) +
-      geom_point() +
+      geom_point(alpha=0.5) +
       geom_line() +
       scale_color_manual(name="Strategy",values=c("red","blue","black"),drop=FALSE) +
       scale_linetype_manual(name="Strategy",values=c("blank","blank","solid"),drop=FALSE) +
-      geom_text(hjust=1, nudge_x=-0.3, size=3) +
       theme_minimal()
+    if(labels){
+      icer_plot = icer_plot + geom_label(hjust="top", vjust="left", size=3)
+    }
     return(icer_plot)
   }
 }
